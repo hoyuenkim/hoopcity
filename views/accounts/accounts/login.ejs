@@ -1,0 +1,73 @@
+<% include ../header.ejs %>
+    <body style="background-color : #000000;">
+      <div class="container-fluid">
+       <div class="col-md-12" style="background-color : #000000;">
+        <div class="col-md-4">
+         <img src="/static/static_login.png" style="margin-top : 0%; width : 100%;" alt="">
+        </div>
+       <div class="col-md-4" style="margin-top : 3%;">
+        <div class="" style="color : #F5F6CE; margin-bottom : 1%; letter-spacing : 5px; text-align : center;">
+          <h1>JUST GET IN</h1>
+        </div>
+      <div class="panel">
+          <div class="panel-heading" style="letter-spacing : 3px; padding-left : 10%;">
+            regist
+            <a href="/accounts/register">
+              <span style="margin-left : 50%; font-size : 60%; letter-spacing : 2px;"><i class="fas fa-pencil-alt"></i>sign in</span>
+            </a>
+            <span style="text-align : center;">
+
+            </span>
+          </div>
+          <div class="panel-body">
+            <form class="form-group" action="" method="post" style="text-align : center;">
+                <table class="table table-borderless">
+                  <tr>
+                    <td class="col-md-1">I&nbsp;&nbsp;D</td>
+                    <td class="col-md-11"><input class="form-control" id="username" type="text" name="username" value="" placeholder="insert your id"></td>
+                  </tr>
+                  <tr>
+                    <td class="col-md-1">password</td>
+                    <td class="col-md-11"><input class="form-control" id="password" type="password" name="password" value="" placeholder="insert password"></td>
+                  </tr>
+                </table>
+                <%if(typeof flashMessage !=='undefined') {%>
+                <div class="alert alert-danger" style="width : 100%; text-align: center;" role="alert"><%=flashMessage%>
+                  <br>
+                  <a href="/accounts/password/find" style="text-decoration: none; color : #878484;">
+                    password find click
+                  </a>
+                </div>
+                <%}%>
+              <input class="btn btn-default" style="width : 90%;" type="submit" name="" value="login">
+              <button class="btn btn-default" style="width : 90%; margin-top : 2%;" type="button" name="button" onclick="location.href='/accounts/password/find'">
+                password find
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-4">
+          <img src="/static/static_login2.png" style="margin-top : 0%; width : 100%;" alt="">
+        </div>
+       <footer style="margin-top : 1%;">
+        <div class="col-md-offset-8 col-md-4" style="color : #FFFFFF;">
+          <address> contact : <a href="mailto:hy.kim@daanbee.com">hy.kim@daanbee.com</a> hykim research center,</address><small>Copyright &copy; 2017 hy.kim</small>
+        </div>
+       </footer>
+      </div>
+    </div>
+    <script type="text/javascript">
+      $('.form-group').submit(function(){
+        if(!$('#username').val()){
+          alert('you have to insert id');
+          return false;
+        } else if(!$('#password').val()){
+          alert('you have to insert password');
+          return false;
+        }
+        alert(flashMessage);
+      });
+    </script>
+  </body>
+</html>

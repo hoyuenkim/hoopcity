@@ -1,0 +1,231 @@
+<% include ./header.ejs %>
+<% include ./navibar.ejs %>
+    <div style="margin-bottom: 2%; height : 150px;">
+      <div class="col-sm-8" style="height : 100%;">
+        <div class="panel join" style="height : 100%; cursor : pointer; background-image : url('/static/team.jpg'); font-size : 600%; border-radius : 5px; font-family: 'Anton', sans-serif; text-align : center; padding : 1%;">
+          GET YOUR TEAM
+        </div>
+      </div>
+        <div class="col-sm-4">
+          <%if(!userData){%>
+          <div class="col-sm-12" style="border-radius : 5px; background-color: #ffffff; text-align: right;">
+              <span style="margin-bottom: 100%; margin-right : 10%; font-size: 80%;">
+                  <a href="/accounts/register">Regist id</a> | <a href="/accounts/password/find">Password finder</a>
+              </span>
+              <div style="width: 90%; padding-left: 10%; margin-top : 1%;">
+                  <form class="form-group" action="/accounts/login"  method="post">
+                      <input class="form-control" type="text" name="username" placeholder="id"></td>
+                      <input  class="form-control" type="password" name="password" placeholder="passoword"></td>
+                      <input class="btn btn-default" type="submit" style="width : 100%;" value="login">
+                  </form>
+              </div>
+          </div>
+          <%} else {%>
+            <div class="panel panel-default panel-home" style="height : 150px;">
+              <div class="panel-heading">
+                profile <span style="margin-left : 65%;"><a href="/accounts/logout" class="hover" style="color : #ffffff; background-color: #B40404; margin-bottom : 20%; border : 0.5px solid #B40404; font-size: 70%; padding-left : 4%; padding-right : 4%; border-radius: 5px;">logout</a></span>
+              </div>
+              <div class="panel-body profile" style="height : 100%;">
+                <table class="table table-borderless">
+                  <colgroup>
+                    <col width="25%">
+                    <col width="75%">
+                  </colgroup>
+                  <tr>
+                    <td>
+                      <%if(!userData.profile.thumbnail){%>
+                        <span style="font-size: 500%;">
+                            <i class="far fa-user-circle"></i>
+                        </span> 
+                      <%} else {%>
+                          <img src="/uploads/accounts/<%=userData.profile.thumbnail%>" alt="" style="width : 100%; border-radius: 50%;">
+                      <%}%>
+                    </td>
+                    <td>
+                        <table class="table table-borderless" style="font-size: 110%;" cellpadding="0">
+                            <colgroup>
+                              <col width="35%">
+                              <col width="65%">
+                            </colgroup>
+                            <tr>
+                              <td class="" align="left"><%=userData.profile.name%></td>
+                              <td class="" align="center"></td>
+                            </tr>
+                            <tr>
+                              <td class="" align="left"><strong>TEAM"</strong></td>
+                              <td class="" align="left">
+                                <%if(teammember){%>
+                                 <a href="/team/home/<%=teammember.name%>" style="text-decoration: none;"><%=teammember.name%></a>
+                                <%} else {%>
+                                  get a team
+                                <%}%>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="" align="left">
+                                <% if(message.length > 0) {%>
+                                  <i class="far fa-envelope faa-horizontal animated"></i>
+                                <% } else {%>
+                                  <i class="far fa-envelope"></i>
+                                <% } %>
+                              </td>
+                              <td class="" align="left"><a href="/accounts/message?name=<%=userData._id%>"><strong><%=message.length%></strong></a></td>
+                            </tr>
+                          </table>
+                    </td>
+                  </tr>
+                </table>                
+                  </div>
+            </div>
+          <% } %>
+          </div>
+    </div>
+      <!-- guest -->
+      <div class="col-sm-4">
+          <div class="panel panel-default panel-home">
+            <div class="panel-heading">
+              Guest games
+            </div>
+            <div class="panel-body">
+              <table class="table table-borderless table-striped table-hover">
+                <%guests.forEach(function(guest){%>
+                  <tr onclick="location.href='/game/guest/match/<%=guest.id%>'" style="cursor: pointer;">
+                    <td><%=guest.getRegion%> </td>
+                    <td><%=guest.date.toLocaleDateString()%></td>
+                    <td><%=guest.time%></td>
+                  </tr>
+                <%})%>
+              </table>
+              <a href="/game/guest">
+                <div class="col-sm-12" style="text-align: center; letter-spacing: 5px;">
+                  more
+                  <i class="fas fa-arrow-circle-down"></i>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- team ranking -->
+        <div class="col-sm-4">
+          <div class="panel panel-default panel-home">
+            <div class="panel-heading">
+              Ranking
+            </div>
+            <div class="panel-body">
+              <table class="table table-hover table-striped table-borderless">
+              <% let = 0; %>
+              <%ranks.forEach(function(rank){%>
+                <tr onclick="location.href='/team/home/<%=rank.team.name%>'" style="cursor : pointer;">
+                  <td class="col-sm-1"><%=let+=1%></td>
+                  <td class="col-sm-7"><%=rank.team.name%></td>
+                  <td class="col-sm-4" align="right"><div style="padding : 3%; padding-right : 10%; width : 100%; text-align: right; color : #ffffff; background-color: #B40404; border-radius: 5px;"><%=rank.point%> point</div></td>
+                </tr>
+              <%})%>
+            </table>
+            <a href="/team">
+              <div class="col-sm-12" style="text-align: center; letter-spacing: 5px;">
+                more
+                <i class="fas fa-arrow-circle-down"></i>
+              </div>
+            </a>
+            </div>
+          </div>
+        </div>
+        <!-- notice -->
+        <div class="col-sm-4">
+            <div class="panel panel-default panel-home">
+              <div class="panel-heading">
+                Notice
+              </div>
+              <div class="panel-body">
+                <table class="table table-borderless table-striped">
+                <%notices.forEach(function(notice){%>
+                <tr onclick="location.href='/admin/notice/content/<%=notice.id%>'" style="cursor: pointer;">
+                  <td class="col-sm-8"><%=notice.subject%></td>
+                  <td class="col-sm-4" align="right"><%=notice.created_at.toLocaleDateString()%></td>
+                </tr>
+                <%})%>
+              </table>
+              <a href="/admin/notice">
+                <div class="col-sm-12" style="text-align: center; letter-spacing: 5px;">
+                  more
+                  <i class="fas fa-arrow-circle-down"></i>
+                </div>
+              </a>
+              </div>
+            </div>
+          </div>
+        <!-- 3on3 -->
+        <div class="col-sm-4">
+            <div class="panel panel-default panel-home">
+              <div class="panel-heading">
+                Pickup games
+              </div>
+              <div class="panel-body">
+                <table class="table table-borderless table-striped table-hover">
+                  <%pickups.forEach(function(pickup){%>
+                    <tr onclick="location.href='/game/3on3/match/<%=pickup.id%>'" style="cursor : pointer;">
+                      <td><%=pickup.getRegion%> </td>
+                      <td><%=pickup.date.toLocaleDateString()%></td>
+                      <td><%=pickup.time%></td>
+                    </tr>
+                  <%})%>
+                </table>
+                <a href="/game/3on3">
+                  <div class="col-sm-12" style="text-align: center; letter-spacing: 5px;">
+                    more
+                    <i class="fas fa-arrow-circle-down"></i>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- lesson -->
+          <div class="col-sm-4">
+              <div class="panel panel-default panel-home">
+                <div class="panel-heading">
+                  lesson
+                </div>
+                <div class="panel-body">
+                  <table class="table table-borderless table-striped table-hover">
+
+                  </table>
+                  <a href="">
+                    <div class="col-sm-12" style="text-align: center; letter-spacing: 5px;">
+                      more
+                      <i class="fas fa-arrow-circle-down"></i>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <!-- league -->
+            <div class="col-sm-4">
+                <div class="panel panel-default panel-home">
+                  <div class="panel-heading">
+                    league
+                  </div>
+                  <div class="panel-body">
+                    <table class="table table-borderless table-striped table-hover">
+  
+                    </table>
+                    <a href="">
+                      <div class="col-sm-12" style="text-align: center; letter-spacing: 5px;">
+                        more
+                        <i class="fas fa-arrow-circle-down"></i>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+<script>
+  $('.join').mouseenter(function(){
+    $(this).css("filter", "invert(30%)");
+  });
+  $('.join').mouseout(function(){
+    $(this).css("filter", "invert(0%)");
+  });
+</script>
+
+<% include ../views/modules/message.ejs %>
+<% include ./footer.ejs %>

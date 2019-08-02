@@ -1,0 +1,169 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+    <div class="" style="">
+      <div class="col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            game list
+          </div>
+          <div class="panel-body">
+              <% const array = ["loyalty", "team", "defence", "nation", "hoops", "hustle", "practice", "amazing", "heart", "champion"] %>
+              <%challenges.forEach(function(challenge){%>
+                <div class="col-sm-12 hover" onclick="location.href='/game/challenge/match/<%=challenge.id%>'" style="cursor : pointer; margin-bottom: 1%; border : 0.1px #6E6E6E solid">
+                  <h4>|<%=challenge.home.getRegion%></h4><h5><%=challenge.getDate%> <%=challenge.time%></h5>
+                    <div class="col-sm-5">
+                        <%if(challenge.home.teamicon){%>
+                          <img style="border : #6E6E6E double 0.5px; width : 100%; height : 120px; margin: 1%; margin-top: 5%;" src="/uploads/team/<%=challenge.home.teamicon%>" alt="">
+                          <%} else {%>
+                            <div class="col-sm-12" style="height : 120px; text-align: center; margin: 1%; margin-top: 5%; padding-top: 10%; vertical-align: middle;">
+                              <h1 style="font-family: 'UnifrakturMaguntia', cursive;"><%=array[Math.ceil((Math.random()*10))-1]%></h1>
+                            </div>
+                          <%}%>
+                          <table class="table table-borderless" style="font-size: 70%;">
+                            <tr>
+                              <td class="col-sm-4">home</td>
+                              <td class="col-sm-8"><%=challenge.home.name%></td>
+                            </tr>
+                            <tr>
+                              <td>court</td>
+                              <td><%=challenge.home.court%></td>
+                            </tr>
+                            <tr>
+                              <td>addr</td>
+                              <td><%=challenge.home.getRegion%></td>
+                            </tr>
+                            <tr>
+                              <td>member</td>
+                              <td><%=challenge.home.members.length%></td>
+                            </tr>
+                          </table>
+                      </div>
+                      <div class="col-sm-2" style="text-align: center; padding-top: 7%;">
+                        <h1 style="font-family: 'Abril Fatface', cursive;">vs</h1>
+                      </div>
+                    <%if(!challenge.away){%>
+                  <div class="col-sm-5">
+                      <div class="col-sm-12" style="height : 120px; text-align: center; margin: 1%; margin-top: 5%; padding-top: 10%; vertical-align: middle;">
+                          <h1 style="font-family: 'Ewert', cursive; color: #848484;">WANTED</h1>
+                      </div>
+                      <table class="table table-borderless" style="font-size: 70%;">
+                        <tr>
+                          <td>away</td>
+                          <td>???</td>
+                        </tr>
+                        <tr>
+                            <td>court</td>
+                            <td>???</td>
+                          </tr>
+                          <tr>
+                            <td>addr</td>
+                            <td>???</td>
+                          </tr>
+                          <tr>
+                            <td>member</td>
+                            <td>???</td>
+                          </tr>
+                      </table>
+                  </div>
+                  <%} else if(challenge.away){%>
+                    <div class="col-sm-5">
+                        <%if(challenge.away.teamicon){%>
+                          <img style="border : #6E6E6E double 0.5px; width : 100%; height : 120px; margin: 1%; margin-top: 5%;" src="/uploads/team/<%=challenge.home.teamicon%>" alt="">
+                          <%} else {%>
+                            <div class="col-sm-12" style="height : 120px; text-align: center; margin: 1%; margin-top: 5%; padding-top: 10%; vertical-align: middle;">
+                              <h1 style="font-family: 'UnifrakturMaguntia', cursive;"><%=array[Math.ceil((Math.random()*10))-1]%></h1>
+                            </div>
+                          <%}%>
+                    <table class="table table-borderless" style="font-size: 70%;">
+                        <tr>
+                          <td class="col-sm-4">home</td>
+                          <td class="col-sm-8"><%=challenge.away.name%></td>
+                        </tr>
+                        <tr>
+                          <td>court</td>
+                          <td><%=challenge.away.court%></td>
+                        </tr>
+                        <tr>
+                          <td>addr</td>
+                          <td><%=challenge.away.getRegion%></td>
+                        </tr>
+                        <tr>
+                          <td>member</td>
+                          <td><%=challenge.away.members.length%></td>
+                        </tr>
+                      </table>
+                      </div>
+                  <%}%>
+                  </div>
+              <%})%>
+          </div>
+        </div>
+        <div class="" style="text-align : center;">
+            <ul>
+              <%
+                var offset = 3;
+                var partialQuery;
+                if(urlQuery) partialQuery = urlQuery.replace(/&page=(.*?)(&|$)/ig,"");
+              %>
+              <% for(i=1;i<=maxPage;i++){ %>
+                <% if(i<=offset || i>maxPage-offset || (i>=page-(offset-1) && i<=page+(offset-1))){ %>
+                  <% if(i != page){ %>
+                    <li style="display : inline-block;"><a href="/game/challenge?<%=partialQuery%>&page=<%= i %>">[ <%= i %> ]</a></li>
+                    <% } else { %>
+                      <li style="display : inline-block;">[ <b><%= i %></b> ]</li>
+                      <% } %>
+                    <% } else if(i == offset+1 || i == maxPage-offset){ %>
+                      <li style="display : inline-block;">...</li>
+                    <% } %>
+                  <%}%>
+            </ul>
+          </div>
+          <form class="col-sm-12" action="" id="search" style="width : 90%;">
+              <table class="table">
+                <tr>
+                  <td class=col-sm-3>
+                    <select class="form-control" name="searchType">
+                      <% var select %>
+                      <option value="homename,awayname"
+                      <%= search.searchType=="homename,awayname"?select="selected":"" %>>home, away</option>
+                      <option value="homename"
+                      <%= search.searchType=="homename"?select="selected":"" %>>home</option>
+                      <option value="awayname"
+                      <%= search.searchType=="awayname"?select="selected":"" %>>away</option>
+                      <option value="addr"
+                      <%= search.searchType=="addr"?select="selected":"" %>>addr</option>
+                    </select>
+                  </td>
+                  <td class="col-sm-7">
+                    <input class="form-control" type="text" name="searchText" value="<%= select?search.searchText:"" %>">
+                  </td>
+                  <td class="col-sm-2">
+                    <button class="btn btn-default" type="submit" style="width : 100%;">search</button>
+                  </td>
+                </tr>
+              </table>
+            </form>
+      </div>
+      <% if(userData && userData.status == 2 && conf.length == 0){ %>
+      <div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            create match
+          </div>
+          <div class="panel-body">
+              <button class="btn btn-default" type="button" name="button" style="width : 100%; margin : 2%;" onclick="location.href='/team/challenge/regist'">create match</button>
+          </div>
+        </div>
+      </div>
+      <%}%>
+  </div>
+<script type="text/javascript">
+  $('.hover').mouseover(function(){
+    $(this).css('filter', 'invert(30%)');
+  });
+  $('.hover').mouseout(function(){
+    $(this).css('filter', 'invert(0%)');
+  });
+</script>
+
+<% include ../../footer.ejs %>

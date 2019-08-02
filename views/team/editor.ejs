@@ -1,0 +1,126 @@
+<% include ../header.ejs %>
+<% include ../navibar.ejs %>
+  <div class="" style="text-align : right;">
+    <div class="panel panel-default col-sm-offset-1 col-sm-10" style="text-align : center; margin-top : 1%; padding : 0px; letter-spacing : 5px;">
+      <div class="panel-heading" style="text-align : left;">
+        <h3>team edit</h3>
+      </div>
+      <div class="panel-body" style="background-size : 100%; background-image : url('/static/team_join.gif'); background-repeat:no-repeat;">
+            <form class="form-group" method="post" action="" id="form" enctype="multipart/form-data">
+                <table class="table table-responsive table-borderless">
+                  <tr>
+                    <td class="col-sm-4">icon</td>
+                    <td class="col-sm-8" colspan=2><input class="form-control"  id="teamicon" name="teamicon" type="file" value="<%=team.teamicon%>"></td>
+                  </tr>
+                    <tr>
+                      <td>map</td>
+                      <td colspan=2>
+                        <div class="form-control" id="map" style="width : 100%; height : 350px;"></div>
+                      </td>
+                    </tr>
+                  <tr>
+                    <td>search</td>
+                    <td class="col-sm-7"><input class="form-control col-sm-8" id="keyword" type="text"</td>
+                    <td class="col-sm-5"><button class="btn btn-default" id="search" style="width : 100%;">search</button></td>
+                  </tr>
+                  <tr>
+                    <td>court</td>
+                    <td colspan=2>
+                      <input class="form-control" id="court" type="text" name="court" value="<%=team.court%>" readonly>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>addr</td>
+                    <td colspan=2><input class="form-control" id="addr" name="addr" type="text" readonly value="<%=team.addr%>"></td>
+                  </tr>
+                  <tr>
+                    <td>description</td>
+                    <td colspan=2> 
+                      <textarea class="form-control" name="desc" id="desc" cols="30" rows="4"><%=team.desc%></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>training day</td>
+                    <td colspan=2>
+                      <div class="col-sm-6" style="padding-left : 0px;">
+                        <select class="form-control" name="date" id="training">
+                          <option value="1" id="mon">mon</option>
+                          <option value="2" id="tue">tue</option>
+                          <option value="3" id="wed">wed</option>
+                          <option value="4" id="thu">thu</option>
+                          <option value="5" id="fri">fri</option>
+                          <option value="6" id="sat">sat</option>
+                          <option value="0" id="sun">sun</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-6">
+                        <input class="form-control" id="timepicker" name="time" type="text" placeholder="please insert time" value="<%=team.training.date%>">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>options</td>
+                    <td colspan=2>
+                      <table class="table table-borderless">
+                        <tr>
+                          <td align="left">
+                            <input type="checkbox" id="shower" value="shower" name="options">shower
+                          </td>
+                          <td align="left">
+                            <input type="checkbox" id="parking" value="parking" name="options">parking
+                          </td>
+                          <td align="left">
+                            <input type="checkbox" id="gym" value="gym" name="options">gym
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <input type="hidden" name="x" id="x" value="<%=team.geometry.coordinates[0]%>">
+                <input type="hidden" name="y" id="y" value="<%=team.geometry.coordinates[1]%>">
+                <!-- <input type="text" value="<%=team.info%>"> -->
+                  <input class="btn btn-default" type="submit" name="" value="regist" style="letter-spacing : 5px; width : 100%;">
+                </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+  $(document).ready(function(){
+    $("#training").val("<%=team.training.day%>");
+    if([<%=team.options%>].map(x => x.value).indexOf('shower') != -1){
+      $('#shower').attr("checked", true);
+    }
+    if([<%=team.options%>].map(x => x.value).indexOf('parking') != -1){
+      $('#parking').attr("checked", true);
+    }
+    if([<%=team.options%>].map(x => x.value).indexOf('gym') != -1){
+      $('#gym').attr("checked", true);
+    }
+  });
+
+  $('.form-group').submit(function(){
+    const court = $('#court').val();
+    const addr = $('#addr').val();
+    const desc = $('#desc').val();
+    if(!court) return false;
+    if(!addr) return false;
+    if(!desc) return false;
+  });
+  $(function() {
+    $('#timepicker').timepicker({
+      timeFormat: 'HH:mm',
+      interval: 30,
+      minTime: '7',
+      maxTime: '10:00pm',
+      startTime: '07:00',
+      dynamic: false,
+      dropdown: true,
+      scrollbar: true
+    });
+  });
+</script>
+<% include ../modules/map.ejs %>
+<% include ../footer.ejs %>

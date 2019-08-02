@@ -1,0 +1,89 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+    <div class="" style="">
+      <div class="col-sm-8">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            game list
+          </div>
+          <div class="panel-body">
+              <%games.forEach(function(game){%>
+                <div class="col-sm-6 hover" onclick="location.href='/game/guest/match/<%=game.id%>'" style="cursor : pointer; margin-bottom: 1%;">
+                  <div class="col-sm-4" style="background-color: #B40404; padding : 1%; padding-bottom: 2%; color : #ffffff; text-align: center; border-top-left-radius: 5px; border-top-right-radius: 5px; font-size: 70%;"><strong>|</strong> <%=game.team.name%></div>
+                  <div class="col-sm-8"></div>
+                  <div class="col-sm-12" style="border : #E6E6E6 solid 0.5px;">
+                    <h4><strong><%=game.court%></strong></h4>
+                    <h4><strong><%=game.getDate%></strong></h4>
+                    <h5><%=game.time%></h5>
+                      <table class="table table-borderless" style="font-size: 80%;">
+                          <tr>
+                            <td>addr</td>
+                            <td><%=game.getRegion%></td>
+                          </tr>
+                          <tr>
+                            <td>members</td>
+                            <td><%=game.members.length%></td>
+                          </tr>
+                        </table>
+                  </div>
+                </div>
+              <%})%>
+          </div>
+        </div>
+        <div class="" style="text-align : center;">
+            <ul>
+              <%
+                var offset = 3;
+                var partialQuery;
+                if(urlQuery) partialQuery = urlQuery.replace(/&page=(.*?)(&|$)/ig,"");
+              %>
+              <% for(i=1;i<=maxPage;i++){ %>
+                <% if(i<=offset || i>maxPage-offset || (i>=page-(offset-1) && i<=page+(offset-1))){ %>
+                  <% if(i != page){ %>
+                    <li style="display : inline-block;"><a href="/3on3?<%=partialQuery%>&page=<%= i %>">[ <%= i %> ]</a></li>
+                    <% } else { %>
+                      <li style="display : inline-block;">[ <b><%= i %></b> ]</li>
+                      <% } %>
+                    <% } else if(i == offset+1 || i == maxPage-offset){ %>
+                      <li style="display : inline-block;">...</li>
+                    <% } %>
+                  <%}%>
+            </ul>
+          </div>
+          <form class="col-sm-12" action="" id="search" style="width : 90%;">
+              <table class="table">
+                <tr>
+                  <td class=col-sm-3>
+                    <select class="form-control" name="searchType">
+                      <% var select %>
+                      <option value="homename"
+                      <%= search.searchType=="homename"?select="selected":"" %>>team</option>
+                      <option value="addr"
+                      <%= search.searchType=="addr"?select="selected":"" %>>addr</option>
+                    </select>
+                  </td>
+                  <td class="col-sm-7">
+                    <input class="form-control" type="text" name="searchText" value="<%= select?search.searchText:"" %>">
+                  </td>
+                  <td class="col-sm-2">
+                    <button class="btn btn-default" type="submit" style="width : 100%;">search</button>
+                  </td>
+                </tr>
+              </table>
+            </form>
+      </div>
+      <div class="col-sm-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            create match
+          </div>
+          <div class="panel-body">
+              <button class="btn btn-default" type="button" name="button" style="width : 100%; margin : 2%;" onclick="location.href='/team/guest/regist'">create match</button>
+          </div>
+        </div>
+      </div>
+  </div>
+<script type="text/javascript">
+</script>
+
+<% include ../../footer.ejs %>

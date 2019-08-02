@@ -1,0 +1,44 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+
+<div class="col-sm-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            notice
+        </div>
+        <%if(userData && userData._id == content.author){%>
+            <div class="col-sm-12" style="text-align: right; padding-right: 2%; margin : 1%">
+                <div class="col-sm-offset-8 col-sm-2"><a href="/admin/notice/edit/<%=content.id%>"><i class="fas fa-pencil-alt"></i>edit</a></div>
+                <div class="col-sm-2"><a class="delete"><i class="far fa-trash-alt"></i>delete</a></div>
+            </div>
+        <%}%>
+        <div class="panel-body form-group" style="padding : 3%;">
+            <h2>
+              <strong>|</strong> <%=content.subject%>
+            </h2>
+            <br>
+            <div style="text-align: right; padding-right: 2%; font-size: 70%;">
+                <span class="tag">author</span> 관리자
+                <span class="tag">created_at</span><%=content.created_at.toLocaleDateString()%>
+            </div>
+            <hr>
+            <img src="/uploads/admin/<%=content.thumbnail%>" alt="">
+            <div style="padding : 2%; padding-bottom: 5%;">
+            <%-content.content%>
+            </div>
+        </div>
+    </div>
+    <% include ../../modules/comment.ejs %>
+</div>
+<div class="col-sm-4">
+    광고
+</div>
+
+<script>
+    $('.delete').click(function(){
+        const flag = confirm('do you really want to delete?');
+        if(flag) location.href="/admin/notice/delete/<%=content.id%>"
+    });
+</script>
+
+<% include ../../footer.ejs %>

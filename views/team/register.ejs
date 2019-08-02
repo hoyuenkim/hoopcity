@@ -1,0 +1,152 @@
+<% include ../header.ejs %>
+<% include ../navibar.ejs %>
+  <div class="" style="text-align : right;">
+    <div class="panel panel-default col-sm-offset-1 col-sm-10" style="text-align : center; margin-top : 1%; padding : 0px; letter-spacing : 5px;">
+      <div class="panel-heading" style="text-align : left;">
+        <h3>team regist</h3>
+      </div>
+      <div class="panel-body" style="background-size : 100%; background-image : url('/static/team_join.gif'); background-repeat:no-repeat;">
+            <form class="form-group" method="post" action="" id="form" enctype="multipart/form-data">
+                <table class="table table-responsive table-borderless">
+                  <tr>
+                    <td class="col-sm-4">name</td>
+                    <td class="col-sm-8" colspan=2><input class="form-control" id="name" type="text" name="name"></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td class="conf" id="nameconf" colspan=2></td>
+                  </tr>
+                  <tr>
+                    <td>leader</td>
+                    <td colspan=2><input class="form-control" id="leader" type="text" name="leader" value="<%=userData.profile.name%>"  readonly></td>
+                  </tr>
+                  <tr>
+                    <td>icon</td>
+                    <td colspan=2><input class="form-control"  id="teamicon" name="teamicon" type="file"></td>
+                  </tr>
+                    <tr>
+                      <td>map</td>
+                      <td colspan=2>
+                        <div class="form-control" id="map" style="width : 100%; height : 350px;"></div>
+                      </td>
+                    </tr>
+                  <tr>
+                    <td>search</td>
+                    <td class="col-sm-7"><input class="form-control col-sm-8" id="keyword" type="text"</td>
+                    <td class="col-sm-5"><button class="btn btn-default" id="search" style="width : 100%;">search</button></td>
+                  </tr>
+                  <tr>
+                    <td>court</td>
+                    <td colspan=2>
+                      <input class="form-control" id="court" type="text" name="court"readonly>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>addr</td>
+                    <td colspan=2><input class="form-control" id="addr" name="addr" type="text" readonly></td>
+                  <tr>
+                    <td>description</td>
+                    <td colspan=2> 
+                      <textarea class="form-control" name="desc" id="desc" cols="30" rows="4"></textarea>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>training day</td>
+                    <td colspan=2>
+                      <div class="col-sm-6" style="padding-left : 0px;">
+                        <select class="form-control" name="date" id="" aria-placeholder="day">
+                          <option value="1">mon</option>
+                          <option value="2">tue</option>
+                          <option value="3">wed</option>
+                          <option value="4">thu</option>
+                          <option value="5">fri</option>
+                          <option value="6">sat</option>
+                          <option value="0">sun</option>
+                        </select>
+                      </div>
+                      <div class="col-sm-6">
+                        <input class="form-control" id="timepicker" name="time" type="text" placeholder="please insert time">
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>options</td>
+                    <td colspan=2>
+                      <table class="table table-borderless">
+                        <tr>
+                          <td align="left">
+                            <input type="checkbox" id="shower" value="shower" name="options">shower
+                          </td>
+                          <td align="left">
+                            <input type="checkbox" id="parking" value="parking" name="options">parking
+                          </td>
+                          <td align="left">
+                            <input type="checkbox" id="gym" value="gym" name="options">gym
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <input type="hidden" name="x" id="x">
+                <input type="hidden" name="y" id="y">
+                  <input class="btn btn-default" type="submit" name="" value="regist" style="letter-spacing : 5px; width : 100%;">
+                </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('.form-group').submit(function(){
+    const name = $('#name').val();
+    const court = $('#court').val();
+    const addr = $('#addr').val();
+    const desc = $('#desc').val();
+    if(!name) return false;
+    if(!court) return false;
+    if(!addr) return false;
+    if(!desc) return false;
+  });
+  $('#name').focusout(function(){
+    const obj = new Object();
+    obj.name = $('#name').val();
+    var pattern = /^[a-z0-9가-힣]{3,19}$/g;
+    if(!pattern.test(obj.name) && !obj.name == ''){
+      // alert();
+            $('#nameconf').text('team name error you can only use a-z, 0-9 for name');
+            $('#name').val("")
+            return false;
+    } else {
+      $('#nameconf').text('')
+    }
+    $.ajax({
+      url : '/team/auth/team',
+      type : 'POST',
+      data : obj,
+      dataType : "json"
+    })
+    .done(function(args){
+      if(args.message == 1){
+        alert('there is same team name');
+        $('#name').val("");
+      }
+    })
+    .fail(function(err){
+      console.error({message : 'error is occured at team name'});
+    })
+  });
+  $(function() {
+    $('#timepicker').timepicker({
+      timeFormat: 'HH:mm',
+      interval: 30,
+      minTime: '7',
+      maxTime: '10:00pm',
+      startTime: '07:00',
+      dynamic: false,
+      dropdown: true,
+      scrollbar: true
+    });
+  });
+</script>
+<% include ../modules/map.ejs %>
+<% include ../footer.ejs %>

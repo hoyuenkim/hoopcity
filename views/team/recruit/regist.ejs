@@ -1,0 +1,82 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+
+<div class="col-sm-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>recruit</h4>
+        </div>
+        <div class="panel-body" style="background-image: url('/static/notusing/static_inyourface.gif'); background-repeat: no-repeat;">
+            <form class="form-group"  action="" method="post">
+                <table class="table table-borderless">
+                    <tr>
+                        <td class="col-sm-4" align="center">subject</td>
+                        <td class="col-sm-8"><input class="form-control" type="text" id="subject" value="<%=team.subject%>"></td>
+                    </tr>
+                    <tr>
+                        <td align="center">team</td>
+                        <td><input class="form-control" type="text" value="<%=team.name%>" readonly></td>
+                    </tr>
+                    <tr>
+                        <td align="center">court</td>
+                        <td><input class="form-control" type="text" value="<%=team.court%>" readonly></td>
+                    </tr>
+                    <tr>
+                        <td align="center">addr</td>
+                        <td><input class="form-control" type="text" value="<%=team.getRegion%>" readonly></td>
+                    </tr>
+                        <tr>
+                        <td align="center">position</td>
+                        <td>
+                            <table class="table" style="background-color: transparent;">
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" id="pg" name="position"value="pg"/>
+                                        <label for="scales">pg</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="sg" name="position"value="sg"/>
+                                        <label for="scales">sg</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="sf" name="position"value="sf"/>
+                                        <label for="scales">sf</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="pf" name="position"value="pf"/>
+                                        <label for="scales">pf</label>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" id="c" name="position"value="c"/>
+                                        <label for="scales">c</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <div class="col-sm-6"><input class="btn btn-default" type="submit" style="width : 100%;" value="submit"></div>
+                <div class="col-sm-6"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-sm-2">
+    RTEST
+</div>
+
+<script>
+    $('.form-group').submit(function(){
+        var subject = $('#subject').val();
+        var position = $(':input[name=position]:checkbox:checked').val();
+        if(!subject){
+            alert('you have to fill subject field');
+            return false;
+        } else if(!position){
+            alert('you have to choose any position');
+            return false;
+        }
+    });
+</script>
+
+<% include ../../footer.ejs %>

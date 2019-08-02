@@ -1,0 +1,202 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+          <h5>location</h5>
+          <h2><%=home.getRegion%></h2>
+      </div>
+      <div class="panel-body">
+          <div class="col-sm-6">
+              <div id="map" style="width : 100%; height : 250px;"></div>
+            </div>
+            <div class="col-sm-6">
+              <h4><strong>Game info</strong></h4>
+              <table class="table table-hover table-borderless">
+                <tr>
+                  <th>court</th>
+                  <td><%=home.court%></td>
+                </tr>
+                <tr>
+                  <th>location</th>
+                  <td><%=home.addr%> <%=home.addr_detail%></td>
+                </tr>
+                <tr>
+                  <th>date</th>
+                  <td><%=challenge.getDate%></td>
+                </tr>
+                <tr>
+                  <th>time</th>
+                  <td><%=challenge.time%></td>
+                </tr>
+              </table>
+              <%if(userData && home.leader == userData._id){%>
+                <button class="btn btn-default" style="width : 100%;" onclick="location.href='/game/challenge/delete/<%=challenge.id%>'">delete</button>
+              <%} else if(away && userData && away.leader == userData._id){%>
+                <button class="btn btn-default" style="width : 100%;" onclick="location.href='/game/challenge/cancel/<%=challenge.id%>'">cancel</button>
+              <%} else if(away &&  userData && away.leader != userData._id){%>
+                <button class="btn btn-danger" style="width : 100%">occupied</button>
+              <%} else {%>
+              <button class="btn btn-default" style="width : 100%;" onclick="location.href='/game/challenge/trial/<%=challenge.id%>'">join</button>
+              <%}%>
+            </div>
+      </div>
+    </div>
+  </div>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          home
+        </div>
+        <div class="panel-body">
+          <table class="table table-borderless">
+            <tr>
+              <th class="col-sm-4">team</th>
+              <td class="col-sm-8"><%=home.name%></td>
+            </tr>
+            <tr>
+              <th>addr</th>
+              <td><%=home.addr%></td>
+            </tr>
+            <tr>
+              <th>court</th>
+              <td><%=home.court%></td>
+            </tr>
+            <tr>
+              <th>rank</th>
+              <td><%=homeRanking%></td>
+            </tr>
+            <tr>
+              <th>w/l</th>
+              <td><%=homeRank.getShift%> %</td>
+            </tr>
+            <tr>
+              <th>members</th>
+              <td><%=home.members.length%></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%if(away){%>
+    <div class="col-sm-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          away
+        </div>
+        <div class="panel-body">
+          <table class="table table-borderless">
+            <tr>
+              <th class="col-sm-4">team</th>
+              <td class="col-sm-8"><%=away.name%></td>
+            </tr>
+            <tr>
+              <th>addr</th>
+              <td><%=away.addr%></td>
+            </tr>
+            <tr>
+              <th>court</th>
+              <td><%=away.court%></td>
+            </tr>
+            <tr>
+              <th>rank</th>
+              <td><%=awayRanking%></td>
+            </tr>
+            <tr>
+              <th>w/l</th>
+              <td><%=awayRank.getShift%> %</td>
+            </tr>
+            <tr>
+              <th>members</th>
+              <td><%=away.members.length%></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <%} else if(!away){%>
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading" style="background-color: #B40404;">
+            wanted
+          </div>
+          <div class="panel-body">
+            <table class="table table-borderless">
+              <tr>
+                <th class="col-sm-4">team</th>
+                <td class="col-sm-8">wanted</td>
+              </tr>
+              <tr>
+                <th>addr</th>
+                <td>???</td>
+              </tr>
+              <tr>
+                <th>court</th>
+                <td>???</td>
+              </tr>
+              <tr>
+                <th>rank</th>
+                <td>???</td>
+              </tr>
+              <tr>
+                <th>w/l</th>
+                <td>??? %</td>
+              </tr>
+              <tr>
+                <th>members</th>
+                <td>???</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <%}%>
+<script>
+
+$('#delete').click(function(){
+  var flag = confirm('do you really want to delete this game?');
+  if(flag == false){
+    return false;
+  } else {
+    location.href='/game/3on3/delete/'+<%=challenge.id%>
+  }
+})
+
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
+
+// 지도를 생성합니다    
+var map = new daum.maps.Map(mapContainer, mapOption); 
+
+// 주소-좌표 변환 객체를 생성합니다
+var geocoder = new daum.maps.services.Geocoder();
+
+// 주소로 좌표를 검색합니다
+geocoder.addressSearch('<%=home.addr%>', function(result, status) {
+
+    // 정상적으로 검색이 완료됐으면 
+     if (status === daum.maps.services.Status.OK) {
+
+        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+
+        // 결과값으로 받은 위치를 마커로 표시합니다
+        var marker = new daum.maps.Marker({
+            map: map,
+            position: coords
+        });
+
+        // 인포윈도우로 장소에 대한 설명을 표시합니다
+        var infowindow = new daum.maps.InfoWindow({
+            content: '<div style="width:150px;text-align:center;padding:6px 0;"><%=home.court%></div>'
+        });
+        infowindow.open(map, marker);
+
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        map.setCenter(coords);
+    } 
+}); 
+</script>
+<% include ../../footer.ejs %>

@@ -1,0 +1,264 @@
+<% include ../header.ejs %>
+    <body style="background-color : #000000; filter : invert(100%);">
+      <div class="container-fluid" style="filter : invert(100%)">
+       <div class="col-md-12" style="background-size : 100%; background-image : url('/static/static_join.gif'); background-repeat:no-repeat; filter : invert(200%);">
+       <div class="col-md-offset-4 col-md-4" style="margin-top : 3%; filter : invert(100%);">
+         <span style="text-align : center;">
+           <h1 style="color :  #F5F6CE; letter-spacing : 2px;">Make your legacy</h1>
+         </span>
+      <div class="panel" style="border : 0.5px solid #BDBDBD; color : #585858; margin-top : 2%;">
+          <div class="panel-heading" style="letter-spacing : 3px; padding-left : 10%;">
+          </div>
+          <div class="panel-body">
+            <form class="form-group" action="" method="post" style="text-align : center;" enctype="multipart/form-data">
+              <div class="table-responsive" style="width : 90%; margin-left : 5%;">
+                <table class="table table-borderless">
+                  <tr>
+                    <td class="col-md-1">id</td>
+                    <td class="col-md-11"><input class="form-control username" id="username" type="text" name="username" value="" placeholder="insert your id"></td>
+                  </tr>
+                  <tr>
+                    <td class="conf" id="idconf" colspan=2></td>
+                  </tr>
+                  <tr>
+                    <td>password</td>
+                    <td><input class="form-control" id="password" type="password" name="password" value="" placeholder="password"></td>
+                  </tr>
+                  <tr>
+                    <td class="conf" id="passconf" colspan=2></td>
+                  </tr>
+                  <tr>
+                    <td>password confirm</td>
+                    <td><input class="form-control" id="passwordconfirm" type="password" name="passwordconfirm" value="" placeholder="password confirm"></td>
+                  </tr>
+                  <tr>
+                    <td>name</td>
+                    <td><input class="form-control" id="name" type="text" name="name" value="" placeholder="your name"></td>
+                  </tr>
+                  <tr>
+                    <td>photo</td>
+                    <td><input class="form-control" type="file" name="thumbnail"></td>
+                  </tr>
+                  <tr>
+                    <td>phone</td>
+                    <td><input class="form-control" id="phone" type="phone" name="phone" value="" placeholder="mobile number"></td>
+                  </tr>
+                  <tr>
+                    <td class="conf" id="phoneconf" colspan=2></td>
+                  </tr>
+                  <tr>
+                    <td>email</td>
+                    <td><input class="form-control" id="email" type="email" name="email" value="" placeholder="your email"></td>
+                  </tr>
+                  <tr>
+                    <td class="conf" id="emailconf" colspan=2></td>
+                  </tr>
+                  <tr>
+                    <td>height</td>
+                    <td><input class="form-control" id="height" type="text" name="height" value="" numberOnly placeholder="insert your height"></td>
+                  </tr>
+                  <tr>
+                    <td>weight</td>
+                    <td><input class="form-control" id="weight" type="text" name="weight" value="" numberOnly placeholder="insert your weight"></td>
+                  </tr>
+                  <tr>
+                    <td>position</td>
+                    <td>
+                      <table class="positioninput">
+                        <tr>
+                          <th style=" text-align : center;"><img src="/static/pg.jpg" alt="" style="width : 50%;"></th>
+                          <th style=" text-align : center;"><img src="/static/sg.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                          <th style=" text-align : center;"><img src="/static/sf.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                          <th style=" text-align : center;"><img src="/static/pf.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                          <th style=" text-align : center;"><img src="/static/c.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                        </tr>
+                        <tr>
+                          <td class="input" style=" text-align : center;"><input class="position" id="position1" type="radio" name="position" value="pg" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="position2" type="radio" name="position" value="sg" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="position3" type="radio" name="position" value="sf" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="position4" type="radio" name="position" value="pf" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="position5" type="radio" name="position" value="c" style=" text-align : center;"/></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>addr</td>
+                    <td><input class="form-control" id="addr" type="text" name="addr" value="" placeholder="your address" readonly onclick='setDaumPostcode()'></td>
+                  </tr>
+                  <tr>
+                    <td>addr_detail</td>
+                    <td><input class="form-control" id="addr_detail" type="text" name="addr_detail" value="" placeholder="detail address"></td>
+                  </tr>
+                </table>
+                <input type="hidden" name="x" id="x">
+                <input type="hidden" name="y" id="y">
+              <input class="btn btn-default" style="width : 40%; margin-left : 5%;" type="submit" name="" value="submit">
+              <button class="btn btn-default"  style="margin-left : 10%; width : 40%; margin-left : 5%;" type="button" name="button" onclick="location.href='/accounts/login'">cancel</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+       <footer style="margin-top : 1%;">
+        <div class="col-md-offset-8 col-md-4">
+          <address> contact : <a href="mailto:hy.kim@daanbee.com">hy.kim@daanbee.com</a> hykim research center,</address><small>Copyright &copy; 2017 hy.kim</small>
+        </div>
+       </footer>
+      </div>
+    </div>
+    <% include ../../modules/address.ejs %>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#username').focusout(function(){
+          var pattern = /^[a-z0-9]{5,19}$/g;
+          var obj = new Object();
+          obj.username = $('#username').val();
+          if(!pattern.test(obj.username) && !$('#username').val() == ""){
+            $('#idconf').text('id error you can only use a-z, 0-9 for id');
+            $('#username').val("")
+            return false;
+          } else {
+            $('#idconf').text("");
+          }
+          $.ajax({
+            url : '/accounts/username/auth',
+            type : 'POST',
+            data : obj,
+            dataType : "json"
+            })
+          .done(function(args){
+            if(args.message == 0){
+              alert('there is same id');
+              $('#username').val("")
+              return false;
+            } else {
+              return true;
+            }
+          })
+          .fail(function(err){
+            console.log(err);
+          });
+        });
+        $('#password').focusout(function(){
+          var pattern = /^[a-z0-9]{5,19}$/g;
+          var password = $('#password').val();
+          if(!pattern.test(password) && !$('#password').val() ==""){
+          $('#passconf').text('password error you can only use a-z, 0-9 for password');
+            $('#password').val("");
+            return false;
+          } else {
+            $('#passconf').text('');
+          }
+        });
+        $('#passwordconfirm').focusout(function(){
+          var pattern = /^[a-z0-9]{5,19}$/g;
+          var password = $('#password');
+          var passwordconfirm = $('#passwordconfirm');
+          if(password.val() != passwordconfirm.val()){
+            $('#passconf').text('password mismatch!');
+            password.val('');
+            passwordconfirm.val('');
+            return false;
+          } else {
+            $('#passconf').text('');
+          }
+        });
+        
+        $('#phone').focusout(function(err){
+          var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+          if(!regExp.test($('#phone').val()) && !$('#phone').val() ==""){
+            $('#phoneconf').text('wrong phone number format')
+            return false;
+          }else {
+            $('#phoneconf').text('')
+          }
+        });
+        $('#email').focusout(function(err){
+          var obj = new Object();
+          obj.email = $('#email').val();
+          var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+          if(!regExp.test($('#email').val()) && !$('#email').val() == ""){
+            $('#emailconf').text('wrong email format');
+            $('#email').val('');
+            return false;
+          } else {
+            $.ajax({
+              url : '/accounts/email/check',
+              type : 'POST',
+              data : obj,
+              dataType : 'json'
+            })
+            .done(function(args){
+              if(args.message  == 0){
+                alert('there is same email');
+                $('#email').val('');
+              }
+            })
+            .fail(function(err){
+              console.error(err);
+            });
+          }
+        });
+
+        $("input:text[numberOnly]").on("keyup", function() {
+           $(this).val($(this).val().replace(/[^0-9]/g,""));
+        });
+
+        $('.form-group').submit(function(){
+          var obj = new Object();
+          var height = $('#height').val();
+          var weight = $('#weight').val();
+          var position = $(':input[name=position]:radio:checked').val();
+          var addr = $('#addr').val();
+          var email = $('#email').val()
+          var id = $('#username').val();
+          obj.id = id;
+          obj.email = email;
+          if(!($('#username').val())){
+             alert('you have to fill all values');
+             $(this).focus();
+             return false;
+           } else if(!($('#password').val())){
+             alert('you have to fill all values');
+             $(this).focus();
+             return false;
+           } else if(!($('#phone').val())){
+             alert('you have to fill all values');
+             $(this).focus();
+             return false;
+           } else if(!($('#email').val())){
+             alert('you have to fill all values');
+             $(this).focus();
+             return false;
+          } else if(!height){
+            alert('you have to fill height box');
+            return false;
+          } else if(!weight){
+            alert('you have to fill weight box');
+            return false;
+          } else if(!position){
+            alert('you have to fill position box');
+            return false;
+          } else if(!addr){
+            alert('you have to fill addr box');
+            return false;
+          } else {
+            $.ajax({
+              url : '/accounts/auth/email',
+              type : 'POST',
+              data : obj,
+              dataType : 'json',
+            })
+            .done(function(args){
+              alert(`confirm mail is sent to ${args.message}`);
+            })
+            .fail(function(err){
+              console.error(err);
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

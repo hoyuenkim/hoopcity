@@ -1,0 +1,56 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+  <div class="col-sm-10">
+    <div class="panel panel-default col-sm-10" style="margin-top : 1%; padding : 0px; letter-spacing : 1px;">
+      <div class="panel-heading" style="text-align : left;">
+        <h3>Profile</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-4" style="text-align: center; padding-top : 3%;">
+            <%if(!profile.thumbnail){%>
+              <span style="font-size: 700%;">
+                  <i class="far fa-user-circle"></i>
+              </span> 
+            <%} else {%>
+              <img src="/uploads/accounts/<%=userData.profile.thumbnail%>" alt="" style="width : 100%; border-radius: 50%;">
+            <%}%>
+        </div>
+        <div class="col-sm-8">
+            <table class="table table-responsive table-borderless">
+              <tr>
+                <th class="col-sm-4">name</th>
+                <td class="col-sm-8"><%=profile.name%></td>
+              </tr>
+              <tr>
+                <th>position</th>
+                <td ><%=profile.position%></td>
+              </tr>
+              <tr>
+                <th>height</th>
+                <td ><%=profile.height%>cm</td>
+              </tr>
+              <tr>
+                <th>weight</th>
+                <td ><%=profile.weight%>kg</td>
+              </tr>
+              <tr>
+                <th>addr</th>
+                <td><%=profile.addr%> <%=profile.addr_detail%></td>
+              </tr>
+            </table>
+            <div class="col-sm-6">
+              <button class="btn btn-default" type="button" name="" value="" style="width : 100%;" onclick="location.href='/accounts/profile/edit'">edit</button>
+            </div>
+            <div class="col-sm-6">
+              <button class="btn btn-default" type="button" name="button" onclick="history.back(-2)" style="width : 100%;">cancel</button>
+            </div>
+            <div class="col-sm-12" style="padding-top : 1%;">
+              <button class="btn btn-danger" onclick="location.href='/accounts/delete'" style="width : 100%;">delete</button>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<script>
+</script>
+<% include ../../footer.ejs %>

@@ -1,0 +1,89 @@
+<nav class="navbar navbar-default" style="background-color: #000000; color : #ffffff; padding : 1%; font-size: 120%;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="collapsed navbar-toggle" data-toggle="collapse" data-target="#test" aria-expanded="false">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collacollapsepse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="/" class="" style="font-family: 'Monoton', cursive; font-size : 200%;">
+                        Hoop city
+                    </a>
+                </li>
+                <li class="navigation">
+                    <a href="">Hoops nation</a>
+                    <div class="branch">
+                        <a href="/admin/notice">notice</a><br>
+                        <a href="">lesson</a>
+                    </div>
+                </li>
+                </li>
+                <li class="navigation">
+                    <a href="">Team legacy</a>
+                    <div class="branch">
+                        <a href="/team">teams</a><br>
+                        <a href="">league</a>
+                    </div>
+                </li>
+                <li class="navigation">
+                    <a href="">Games</a>
+                    <div class="branch">
+                        <a href="/game/challenge">challenge</a><br>
+                        <a href="/game/guest">guest</a><br>
+                        <a href="/game/3on3">pick up</a>
+                    </div>
+                </li>
+                <li class="navigation">
+                    <a href="">Board</a>
+                    <div class="branch">
+                        <a href="/board/freetalk">free talk</a><br>
+                        <a href="/board/fun">fun</a>
+                    </div>
+                </li>
+                <li class="navigation">
+                    <a href="">ballers</a>
+                    <div class="branch" style="display: none;">
+                            <a href="/ballers/used">used</a>
+                    </div>
+                </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 1%;">
+                    <%if(!userData){%>
+                        <li>
+                            <a href="/accounts/login" style="color : #EEE8AA"><i class="fas fa-power-off"></i> login</a>
+                        </li>
+                        <%} else {%>
+                            <li class="navigation" style="text-align: center;">
+                                <a href="/accounts/profile" style="font-size: 130%;"><i class="far fa-user-circle"></i></a>
+                                <div class="branch" style="display: none;">
+                                    <a href="/accounts/schedule"><i class="far fa-calendar-alt"></i> schedule</a><br>
+                                    <a href="/accounts/message?name=<%=userData._id%>"><i class="far fa-envelope"></i> message</a><br>                    
+                                    <% if(userData && userData.username == "admin"){%>
+                                            <a href="/admin/menu">admin</a>
+                                    <%}%>
+                                </div>
+                            </li>
+                            <li><a href="/accounts/logout"><i class="fas fa-power-off"></i> logout</a>
+                        </li>
+                    <%}%>
+                </ul>
+        </div>
+    </div>
+</nav>
+<div class="col-sm-offset-1 col-sm-10">
+
+<script>
+        $(".navigation").mouseenter(function(){
+          $(this).css('text-align', 'center')
+          $(this).children('div').slideDown(1);
+        });
+        $(".navigation").mouseleave(function(){
+            $(this).css('text-align', 'center')
+              $(this).children('div').slideUp();
+        });
+</script>

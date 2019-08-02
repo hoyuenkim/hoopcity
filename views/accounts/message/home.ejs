@@ -1,0 +1,66 @@
+<%  include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+
+<div class="col-sm-8">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            mail box
+        </div>
+        <div class="panel-body">
+            <nav class="navbar navbar-default">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="">delete</a>
+                    </li>
+                </ul>
+            </nav>
+            <table class="table table-striped table-borderless">
+                <tr>
+                    <th class="col-sm-1">check</th>
+                    <th class="col-sm-7">subject</th>
+                    <th class="col-sm-2">from</th>
+                    <th class="col-sm-2">date</th>
+                </tr>
+                <% messages.forEach(function(messasge){ %>
+                    <tr>
+                        <td><input type="checkbox"></td>
+                        <%if(message.view == false){%>
+                        <td><strong><%=message.subject%></strong></td>
+                        <td><strong><%=message.from.profile.name%></strong></td>
+                        <td><strong><%=message.created_at.toLocaleDateString()%></strong></td>
+                        <%} else {%>
+                        <td><%=message.subject%></td>
+                        <td><%=message.from.profile.name%></td>
+                        <td><%=message.created_at.toLocaleDateString()%></td>
+                        <%}%>
+                    </tr>
+                <% }) %>
+            </table>
+        </div>
+        <div class="" style="text-align : center;">
+                <ul>
+                  <%
+                    var offset = 3;
+                    var partialQuery;
+                    if(urlQuery) partialQuery = urlQuery.replace(/&page=(.*?)(&|$)/ig,"");
+                  %>
+                  <% for(i=1;i<=maxPage;i++){ %>
+                    <% if(i<=offset || i>maxPage-offset || (i>=page-(offset-1) && i<=page+(offset-1))){ %>
+                      <% if(i != page){ %>
+                        <li style="display : inline-block;"><a href="/board/freetalk?<%=partialQuery%>&page=<%= i %>">[ <%= i %> ]</a></li>
+                        <% } else { %>
+                          <li style="display : inline-block;">[ <b><%= i %></b> ]</li>
+                          <% } %>
+                        <% } else if(i == offset+1 || i == maxPage-offset){ %>
+                          <li style="display : inline-block;">...</li>
+                        <% } %>
+                      <%}%>
+                </ul>
+              </div>
+    </div>
+</div>
+<div class="col-sm-4">
+
+</div>
+
+<% include ../../footer.ejs %>

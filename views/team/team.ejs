@@ -1,0 +1,159 @@
+<% include ../header.ejs %>
+<% include ../navibar.ejs %>
+<div class="col-sm-10">
+  <% include ./navibar.ejs %>
+  <div class="col-sm-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%=subject%>
+        <% if(userData && userData._id == team.leader._id){%>
+        <span style="margin-left : 80%;"><a href="/team/edit/<%=team.name%>">edit</a></span>
+        <%}%>
+      </div>
+      <div class="panel-body">
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              static
+            </div>
+            <div class="panel-body">
+                <% const array = ["loyalty", "team", "defence", "nation", "hoops", "hustle", "practice", "amazing", "heart", "champion"] %>
+                <div class="col-sm-4">
+                    <%if(team.teamicon){%>
+                    <img style="border : #6E6E6E double 0.5px; width : 100%; margin: 1%; margin-top: 5%;" src="/uploads/team/<%=team.teamicon%>" alt="">
+                    <%} else {%>
+                      <div class="col-sm-12" style="text-align: center; padding-top : 30%;">
+                        <h1 style="font-family: 'UnifrakturMaguntia', cursive;"><%=array[Math.ceil((Math.random()*10))-1]%></h1>
+                      </div>
+                    <%}%>
+                  </div>
+              <div class="col-sm-8">
+                <table class="table table-borderless">
+                  <tr>
+                    <td class="col-sm-4">name</td>
+                    <td class="col-sm-8"><%=team.name%></td>
+                  </tr>
+                  <tr>
+                      <td>court</td>
+                      <td><%=team.court%></td>
+                  </tr>
+                  <tr>
+                    <td>addr</td>
+                    <td><%=team.addr%> <%=team.addr_detail%></td>
+                  </tr>
+                  <tr>
+                    <td>leader</td>
+                    <td><%=team.leader.profile.name%></td>
+                  </tr>
+                  <tr>
+                    <td>members</td>
+                    <td id="value"><%=team.members.length%></td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              training
+            </div>
+            <div class="panel-body" style="height : 100px;">
+              <table class="table table-striped table-borderless">
+                <tr>
+                  <td>day</td>
+                  <td>time</td>
+                </tr>
+                <tr>
+                  <td><%=team.getDay%></td>
+                  <td><%=team.training.time%></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              options
+            </div>
+            <div class="panel-body" style="height : 100px;">
+                <%team.options.forEach(function(option){%>
+                  <span class="tag" style="font-size: 130%; padding-left : 5%; padding-right :5%; background-color:  #B40404; letter-spacing: 2px;"><%=option%></span>
+                  <%});%>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              Ranking
+            </div>
+            <div class="panel-body" style="text-align: center; font-size: 300%;">
+                <%=teamInfo.ranking%>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                status
+              </div>
+              <div class="panel-body" style="text-align: center; font-size: 150%;">
+                <div class="col-sm-5">| win</div>
+                <div class="col-sm-7" style="text-align: right;"><%=teamInfo.rank.win%></div>
+                <div class="col-sm-5">| lose</div>
+                <div class="col-sm-7" style="text-align: right;"><%=teamInfo.rank.lose%></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  win/lose
+                </div>
+                <div class="panel-body" style="text-align: center; font-size: 300%;">
+                    <%=teamInfo.rank.getShift%>%
+                </div>
+              </div>
+            </div>
+            <%if(conf == null){%>
+              <div class="col-sm-12" style="text-align: right;">
+                <button class="btn btn-default" id="join" style="width : 100%;">join</button>
+              </div>
+            <%}%>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  $('#join').click(function(){
+    const members = $('#value').text();
+    const count = Number(members)+1;
+    if("<%=userData%>" == "") { alert("you have to login") }
+    else {
+      const content = prompt('leave a message for join');
+      const obj = new Object();
+      obj.content = content;
+      obj.team = "<%=team.name%>";
+      $.ajax({
+        url : '/team/join',
+        type : "POST",
+        data : obj,
+        dataType : 'json'
+      })
+      .done(function(args){
+        if(args.message == 1){
+          $('#join').remove();
+          $('#value').text(count)
+        }
+      })
+      .fail(function(err){
+        console.error(err);
+      });
+    }
+  });
+</script>
+
+<% include ../footer.ejs %>

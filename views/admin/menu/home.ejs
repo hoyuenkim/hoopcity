@@ -1,0 +1,214 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+
+<h1>
+    Menu manage
+</h1>
+<br>
+<div class="col-sm-6">
+    <table style="width : 100%;">
+        <tr>
+         <td class="col-sm-9" align="right">
+            <input class="form-control"  id="subject" type="text" name="" value="" style="width : 100%;">     
+         </td>
+         <td class="col-sm-3"  align="right"> 
+            <button class="btn btn-default" type="button" style="margin-bottom : 5%; width : 100%;" id="main">submit</button>
+         </td>
+        </tr>
+    </table>
+    <div class="panel panel-default" style="height : 300px;">
+        <div class="panel-heading">
+            main menu list
+        </div>
+        <div class="panel-body">
+           <table id="subjectList" style="width : 100%;">
+           <%menus.forEach(function(menu){%>
+            <tr class="hover subject" content="<%=menu.subject%>" style="cursor : pointer;">
+              <td class="col-sm-10">
+                <%=menu.subject%>
+              </td>
+              <td class="col-sm-2">
+               <a class="mainDelete" subject="<%=menu.subject%>"><i class="fas fa-trash-alt"></i></a>
+              </td>
+            </tr>
+           <%})%>
+           </table>
+        </div>
+    </div>    
+</div>
+
+<div class="col-sm-6">
+<table style="width : 100%;">
+    <tr>
+    <td class="col-sm-9" align="right">
+        <input class="form-control" id="subordinate" type="text" name=""  content="" value="" style="width : 100%;">     
+    </td>
+    <td class="col-sm-3"  align="right"> 
+        <button class="btn btn-default" id="regist" type="button" style="margin-bottom : 5%; width : 100%;">submit</button>
+    </td>
+    </tr>
+    </table>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            sub menu list
+        </div>
+        <div class="panel-body" id="">
+            <table id="subordinateList" style="width :100%;">
+            </table>
+        </div>
+    </div>    
+</div>
+
+<script>
+    $('#subject').focusout(function(){
+        const obj = new Object;
+        obj.subject = $('#subject').val();
+        $.ajax({
+            url : '/admin/subject/auth',
+            type : 'POST',
+            data : obj,
+            dataType : "json"
+        })
+        .done(function(args){
+            if(args.message == 1){
+                alert('there is same subject');
+                $('#subject').val("");
+            }
+        })
+        .fail(function(err){
+            if(err) console.error;
+        });
+    });
+
+    $('#main').click(function(){
+        const obj = new Object;
+        obj.subject = $('#subject').val();
+        if(obj.subject){
+            $.ajax({
+                url : '/admin/subject/submit',
+                type : 'POST',
+                data : obj,
+                dataType : "json"
+                })
+            .done(function(args){
+                if(args.message == 1) $('#subjectList > tbody:last').append('<tr class="hover subject"  content="'+args.subject+'" style="cursor : pointer"><td class="col-sm-10">'+args.subject+'</td><td class="col-sm-2"><a class="mainDelete" subject="'+ args.subject +'"><i class="fas fa-trash-alt"></i></a></td></tr>');
+            })
+            .fail(function(err){
+                if(err) console.error;
+            })
+        } else {
+            alert("you have to fill up subject")
+        }
+    });
+    //subordinate list
+    $(document).on('click' , '.subject' , function(){
+        const obj = new Object();
+        obj.content = $(this).attr('content');
+        $.ajax({
+            url : '/admin/subject/list',
+                type : 'POST',
+                data : obj,
+                dataType : "json"
+        })
+        .done(function (args){
+            $('#subordinate').attr('content', args.subject.subject);
+            const results = args.subject.subordinate;
+            const subject = args.subject.subject;
+            let str = '<tr>';
+            $.each(results , function(i){
+                str += '<td class="col-sm-10">' + results[i] + '</td><td class="col-sm-2"><a class="subDelete" style="cursor : pointer;" subject="' + subject + '" subordinate="'+ results[i] +'"><i class="fas fa-trash-alt"></i></a></td>'
+                str += '</tr>';
+           });
+           $("#subordinateList").html(str);
+        })
+        .fail(function(err){
+           if(err) console.error; 
+        }); 
+    });
+
+    $(document).on('click', '.mainDelete', function(){
+        const tr = $(this).parent().parent();
+        const obj = new Object();
+        obj.subject = $(this).attr('subject');
+        $.ajax({
+            url : '/admin/subject/delete',
+            type : 'POST',
+            data : obj,
+            dataType : "json",
+        })
+        .done(function(args){  
+            tr.remove();
+        })
+        .fail(function(err){
+            if(err) console.error;
+        });
+    });
+
+    $('#regist').click(function(){
+        if($('#subordinate').val()){
+        const obj = new Object();
+        obj.subject = $('#subordinate').attr('content');
+        obj.content = $('#subordinate').val();
+        $.ajax({
+            url : '/admin/subordinate/submit',
+                type : 'POST',
+                data : obj,
+                dataType : "json"
+        })
+        .done(function (args){
+          $('#subordinateList > tbody:last').append('<tr><td class="col-sm-10">' + args.subordinate + '</td><td class="col-sm-2 "><a class="subDelete"  style="cursor : pointer;" subject="' + args.subject + '" subordinate="'+args.subordinate+'"><i class="fas fa-trash-alt"></i></a></td><tr>');
+        })
+        .fail(function(err){
+           if(err) console.error; 
+        }); 
+        }
+    });
+
+    $('#subordinate').focusout(function(){
+        const obj = new Object;
+        obj.subject = $('#subordinate').attr('content');
+        obj.subordinate = $('#subordinate').val();
+        $.ajax({
+            url : '/admin/subordinate/auth',
+            type : 'POST',
+            data : obj,
+            dataType : "json"
+        })
+        .done(function(args){
+            if(args.message == 1){
+                alert('there is same subordinate');
+                $('#subordinate').val("");
+            }
+        })
+        .fail(function(err){
+            if(err) console.error;
+        });
+    });
+
+    $('.hover').mouseover(function(){
+        $(this).css('filter', 'invert(30%)');
+    });
+    $('.hover').mouseout(function(){
+        $(this).css('filter', 'invert(0%)')
+    });
+    $(document).on('click' , '.subDelete' , function(){
+        const obj = new Object();
+        obj.subject = $(this).attr('subject');
+        obj.subordinate = $(this).attr('subordinate');
+        var tr = $(this).parent().parent();
+        $.ajax({
+            url : '/admin/subordinate/delete',
+            type : 'POST',
+            data : obj,
+            dataType : "json"
+        })
+        .done(function(args){
+            tr.remove();
+        })
+        .fail(function(err){
+            if(err) console.error;
+        });
+    });
+</script>
+
+<% include ../../footer.ejs %>

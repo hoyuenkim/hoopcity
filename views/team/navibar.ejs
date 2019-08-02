@@ -1,0 +1,30 @@
+<div class="col-sm-12" style="padding-bottom : 1%; text-align: center;">
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="home" style="width : 100%;" onclick="location.href='/team/home/<%=team.name%>'">home</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="schedule" style="width : 100%;" onclick="location.href='/team/schedule/<%=team.name%>'">schedule</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="members" style="width : 100%;" onclick="location.href='/team/members/<%=team.name%>'">members</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="board" style="width : 100%;" onclick="location.href='/team/board/<%=team.name%>'">board</button>
+    </div>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="gallery" style="width : 100%;">gallery</button>
+    </div>
+    <%if(userData && userData._id == team.leader){%>
+    <div class="col-sm-2">
+        <button class="btn btn-default" id="admin" style="width : 100%;" onclick="location.herf='/team/admin/<%=team.name%>'">admin</button>
+    </div>
+    <%}%>
+</div>
+
+
+<script>
+    $(document).ready(function(){
+        $('#<%=subject%>').css("background-color", "#B40404");
+        $('#<%=subject%>').css("color", "#ffffff")
+    });
+</script>

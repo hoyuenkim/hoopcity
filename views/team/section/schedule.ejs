@@ -1,0 +1,19 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+
+<div class="col-sm-10">
+    <% include ../navibar.ejs %>
+    <div class="col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <%=subject%>
+            </div>
+            <div class="panel-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<% include ../../modules/calendar.ejs %>
+<% include ../../footer.ejs %>

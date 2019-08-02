@@ -1,0 +1,156 @@
+<% include ../header.ejs %>
+    <body style="background-color : #000000;">
+      <div class="container-fluid">
+       <div class="col-md-12" style="background-color : #000000;">
+        <div class="col-md-4">
+         <img src="/static/static_login.png" style="margin-top : 0%; width : 100%;" alt="">
+        </div>
+       <div class="col-md-4" style="margin-top : 3%; font-family: 'Ubuntu', sans-serif;">
+        <div class="" style="color : #F5F6CE; margin-bottom : 1%; letter-spacing : 5px; text-align : center;">
+          <h1>JUST GET IN</h1>
+        </div>
+      <div class="panel">
+          <div class="panel-heading" style="letter-spacing : 3px; padding-left : 10%; padding-bottom : 5%;">
+            <div class="col-sm-9" style="padding-left : 0px;">
+              user profile
+            </div>
+            <div class="col-sm-2">
+              <a id="delete">delete</a>
+            </div>
+          </div>
+          <div class="panel-body">
+            <form class="form-group" action="" method="post" id="form" enctype="multipart/form-data">
+              <div class="table-responsive table-borderless" style="width : 90%; margin-left : 5%;">
+                <table class="table">
+                  <tr>
+                      <td class="col-md-1">name</td>
+                      <td class="col-md-11"><input class="form-control" id="name" type="text" name="name" value="<%=profile.name%>"></td>
+                  </tr>
+                  <tr>
+                      <td>photo</td>
+                      <td><input class="form-control" type="file" name="thumbnail"></td>
+                    </tr>
+                  <tr>
+                    <td >height</td>
+                    <td><input class="form-control" id="height" type="number" name="height" value="<%=profile.height%>" placeholder="insert your height"></td>
+                  </tr>
+                  <tr>
+                    <td >weight</td>
+                    <td><input class="form-control" id="weight" type="number" name="weight" value="<%=profile.weight%>" placeholder="insert your weight"></td>
+                  </tr>
+                  <tr>
+                    <td >position</td>
+                    <td>
+                      <table class="positioninput">
+                        <tr>
+                          <th style=" text-align : center;"><img src="/static/pg.jpg" alt="" style="width : 50%;"></th>
+                          <th style=" text-align : center;"><img src="/static/sg.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                          <th style=" text-align : center;"><img src="/static/sf.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                          <th style=" text-align : center;"><img src="/static/pf.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                          <th style=" text-align : center;"><img src="/static/c.jpg" alt="" style="width : 50%; text-align : center;"></th>
+                        </tr>
+                        <tr>
+                          <td class="input" style=" text-align : center;"><input class="position" id="pg" type="radio" name="position" value="pg" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="sg" type="radio" name="position" value="sg" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="sf" type="radio" name="position" value="sf" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="pf" type="radio" name="position" value="pf" style=" text-align : center;"/></td>
+                          <td class="input" style=" text-align : center;"><input class="position" id="c" type="radio" name="position" value="c" style=" text-align : center;"/></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td >addr</td>
+                    <td><input class="form-control" id="addr" type="text" name="addr" value="<%=profile.addr%>" placeholder="your address" readonly onclick='setDaumPostcode()'></td>
+                  </tr>
+                  <tr>
+                    <td >addr_detail</td>
+                    <td><input class="form-control" id="addr_detail" type="text" name="addr_detail" value="<%=profile.addr_detail%>" placeholder="detail address"></td>
+                  </tr>
+                </table>
+                <input type="hidden" id="x" name="x" value="">
+                <input type="hidden" id="y" name="y" value="">
+              </div>
+              <div class="col-sm-6">
+                <input class="btn btn-default" style="width : 100%;" type="submit" name="" value="regist">
+              </div>
+              <div class="col-sm-6">
+                <button class="btn btn-default" style="width : 100%;" type="button" name="button" onclick="location.href='/'">
+                  cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-4">
+          <img src="/static/static_login2.png" style="margin-top : 0%; width : 100%;" alt="">
+        </div>
+       <footer style="margin-top : 1%;">
+        <div class="col-md-offset-8 col-md-4" style="color : #FFFFFF;">
+          <address> contact : <a href="mailto:hoyuen.kim@hanmail.net">hoyuen.kim@hanmail.net</a> hykim research center,</address><small>Copyright &copy; 2017 hy.kim</small>
+        </div>
+       </footer>
+      </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+          $('#<%=profile.position%>').prop("checked", true);
+        });
+        $('#phone').focusout(function(err){
+          var regExp = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+          if(!regExp.test($('#phone').val())){
+            alert("잘못된 휴대폰 번호입니다. 숫자, - 를 포함한 숫자만 입력하세요.");
+            return false;
+          }
+        });
+        $('#email').focusout(function(err){
+          var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+          if(!regExp.test($('#email').val())){
+            alert("잘못된 이메일 형식입니다. 000@000.com 형식으로 입력하세요.");
+            return false;
+          }
+        });
+        $('#delete').click(function(){
+          var flag = confirm('do you really want to delete')
+          if(flag){
+            location.href="/accounts/delete"
+          }
+        });
+        $('#form').submit(function(){
+          var height = $('#height').val();
+          var weight = $('#weight').val();
+          var position = $(':input[name=position]:radio:checked').val();
+          var addr = $('#addr').val();
+          if(!height){
+            alert('you have to fill height box');
+            return false;
+          } else if(!weight){
+            alert('you have to fill weight box');
+            return false;
+          } else if(!position){
+            alert('you have to fill position box');
+            return false;
+          } else if(!addr){
+            alert('you have to fill addr box');
+            return false;
+          }
+            else if(!height){
+            alert('you have to fill height box');
+            return false;
+          } else if(!weight){
+            alert('you have to fill weight box');
+            return false;
+          } else if(!position){
+            alert('you have to fill position box');
+            return false;
+          } else if(!addr){
+            alert('you have to fill addr box');
+            return false;
+          }
+        });
+    </script>
+    <% include ../../modules/address.ejs %>
+  </body>
+</html>

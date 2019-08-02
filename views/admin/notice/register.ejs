@@ -1,0 +1,64 @@
+<% include ../../header.ejs %>
+<% include ../../navibar.ejs %>
+
+<div class="col-sm-offset-1 col-sm-10">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            notice
+        </div>
+        <div class="panel-body">
+            <form class="form-group" action="" method="post" enctype="multipart/form-data">
+                <table class="table table-borderless">
+                        <tr>
+                            <td class="col-sm-2" align="center">
+                                subject
+                            </td>
+                            <td class="col-sm-10">
+                                <input class="form-control" id="subject" name="subject" type="text" value="<%=notice.subject%>">
+                            </td>
+                        </tr>
+                        <tr>
+                           <td align="center">thumbnail</td>
+                           <td><input class="form-control" type="file" name="thumbnail"></td> 
+                        </tr>
+                        <tr>
+                            <td align="center">
+                                content
+                            </td>
+                            <td>
+                              <textarea class="form-control" name="content" id="summernote" cols="30" rows="10" placeholder="Describe yourself here..."><%=notice.content%></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+  
+                            </td>
+                            <td>
+                                <div class="col-sm-6" style="text-align: center;">
+                                        <input class="btn btn-default" id="submit" type="submit" value="submit" style="width : 80%;">
+                                </div>
+                                <div class="col-sm-6" style="text-align: center;">
+                                    <button class="btn btn-default" style="width : 80%;" onclick="location.href='/admin/notice'">cancel</button>
+                                </div>
+                               
+                            </td>
+                        </tr>
+                    </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#submit').click(function(){
+        const subject = $('#subject').val();
+        const content = $('#summernote').val();
+        if(!subject || !content){
+            alert('you have to fill all input box');
+            return false;
+        }
+    });
+</script>
+
+<% include ./summernote.ejs %>
+<% include ../../footer.ejs %>
